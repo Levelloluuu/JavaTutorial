@@ -9,7 +9,7 @@ public class Main {
 
         while (true){
             System.out.println("\n=== Task Manager ===");
-            System.out.println("1: 追加 2: リスト 3: 切り替え 4: 削除 5: タイトル変更 0: 終了");
+            System.out.println("1: 追加 2: リスト 3: 切り替え 4: 削除 5: タイトル変更 6: 保存 7: 読み込み 20: 終了");
             System.out.println(">");
             String choice = sc.nextLine().trim();
 
@@ -50,13 +50,23 @@ public class Main {
                 case "5":
                     System.out.println("変更するID");
                     int i = sc.nextInt();
-                    System.out.println("変更するタイトル");
+                    System.out.println("変更するタイトル名");
                     String s = sc.nextLine();
                     if (tm.updateTitle(i, s))
                         System.out.println("変更しました");
                     else {
                         System.out.println("やり直してください");
                     }
+                    break;
+                    //セーブ
+                case "6":
+                    if (tm.save("tasks.csv")) System.out.println("セーブしました");
+                    else System.out.println("セーブに失敗しました.");
+                    break;
+                    //ロード
+                case "7":
+                    if (tm.load("tasks.csv")) System.out.println("ロードしました");
+                    else System.out.println("ロードに失敗しました");
                     break;
                 case "0":
                     System.out.println("終了");

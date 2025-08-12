@@ -18,8 +18,8 @@ public class Task {
         return id;
     }
 
-    public void getTitle() {
-        this.title = title;
+    public String getTitle() {
+        return title;
     }
 
     public boolean isDone() {

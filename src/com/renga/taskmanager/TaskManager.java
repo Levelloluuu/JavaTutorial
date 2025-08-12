@@ -1,5 +1,10 @@
 package com.renga.taskmanager;
 
+import com.sun.source.tree.UsesTree;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,6 +56,58 @@ public class TaskManager {
             return false;
             }
 
+        //セーブ
+        public boolean save (String path) {
+            Path p = Paths.get(path);
+            try (BufferedWriter w = Files.newBufferedWriter(p, StandardCharsets.UTF_8)){
+                for (Task t : tasks){
+                    w.write(t.getId() + "," + t.getTitle() + "," + t.isDone());
+                    w.newLine();
+                }
+                return true;
+            } catch (IOException e) {
+                System.out.println("保存に失敗 "+e.getMessage());
+                return false;
+            }
+        }
+        //ロード
+        public  boolean load (String path) {
+        Path p = Paths.get(path);
+        if (!Files.exists(p)) {
+            System.out.println("ファイルがありません"+path);
+            return false;
+        }
+            try (BufferedReader r = Files.newBufferedReader(p, StandardCharsets.UTF_8)) {
+                tasks.clear();
+                int maxId = 0;
+                String line;
+            while ((line = r.readLine()) != null ) {
+                if(line.isBlank()) continue;
+
+                String cols[] = line.split(",",3);
+                int id = Integer.parseInt(cols[0]);
+                String title = cols[1];
+                boolean done =Boolean.parseBoolean(cols[2]);
+
+                Task t = new Task(id,title);
+                t.setDone(done);
+                tasks.add(t);
+
+                if (id > maxId)
+                    maxId = id;
+            }
+
+            nextId = maxId + 1;
+            return true;
+
+
+
+        } catch (IOException r) {
+            System.out.println("読み込みに失敗"+ r.getMessage());
+            return false;
+        }
+
+        }
 
         }
 

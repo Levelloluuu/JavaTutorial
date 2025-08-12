@@ -9,7 +9,7 @@ public class Main {
 
         while (true){
             System.out.println("\n=== Task Manager ===");
-            System.out.println("1: 追加 2: リスト 3: 切り替え 4: 削除 0: 終了");
+            System.out.println("1: 追加 2: リスト 3: 切り替え 4: 削除 5: タイトル変更 0: 終了");
             System.out.println(">");
             String choice = sc.nextLine().trim();
 
@@ -46,12 +46,24 @@ public class Main {
                     else
                         System.out.println("見つかりません");
                     break;
+                //タイトル変更
+                case "5":
+                    System.out.println("変更するID");
+                    int i = sc.nextInt();
+                    System.out.println("変更するタイトル");
+                    String s = sc.nextLine();
+                    if (tm.updateTitle(i, s))
+                        System.out.println("変更しました");
+                    else {
+                        System.out.println("やり直してください");
+                    }
+                    break;
                 case "0":
                     System.out.println("終了");
                     return;
 
                 default:
-                    System.out.println("0～2を選んでね");
+                    System.out.println("正しい値を選んでください");
 
             }
         }
